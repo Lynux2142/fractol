@@ -6,7 +6,7 @@
 /*   By: lguiller <lguiller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 13:14:45 by lguiller          #+#    #+#             */
-/*   Updated: 2018/03/16 10:56:31 by lguiller         ###   ########.fr       */
+/*   Updated: 2018/07/16 15:14:35 by lguiller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,30 +21,30 @@ static void		ft_const_var_3(t_shape *shape, t_draw *draw, t_fract *f)
 	f->i = 0.0;
 }
 
-void			fract3(t_shape *shape)
+void			*fract3(void *arg)
 {
+	t_shape	*shape;
 	t_fract	f;
 
-	ft_init(shape, &f.draw);
-	while (++f.draw.x < shape->img_x)
+	shape = arg;
+	f = shape->f;
+	f.draw.y = -1;
+	while (++f.draw.y < shape->img_y)
 	{
-		f.draw.y = -1;
-		while (++f.draw.y < shape->img_y)
+		ft_const_var_3(shape, &f.draw, &f);
+		while (((f.z_r * f.z_r) + (f.z_i * f.z_i)) < 4.0
+				&& f.i < shape->iter)
 		{
-			ft_const_var_3(shape, &f.draw, &f);
-			while (((f.z_r * f.z_r) + (f.z_i * f.z_i)) < 4.0
-					&& f.i < shape->iter)
-			{
-				f.draw.tmp = (f.z_r * f.z_r) - (f.z_i * f.z_i) + f.c_r;
-				f.z_i = 2.0 * fabs(f.z_r * f.z_i) + f.c_i;
-				f.z_r = f.draw.tmp;
-				f.i += 1.0;
-			}
-			if (f.i == shape->iter)
-				fill_pixel(shape, f.draw.x, f.draw.y,
-						(shape->color == 4) ? 0xFFFFFF : 0);
-			else
-				ft_set_color(shape, f);
+			f.draw.tmp = (f.z_r * f.z_r) - (f.z_i * f.z_i) + f.c_r;
+			f.z_i = 2.0 * fabs(f.z_r * f.z_i) + f.c_i;
+			f.z_r = f.draw.tmp;
+			f.i += 1.0;
 		}
+		if (f.i == shape->iter)
+			fill_pixel(shape, f.draw.x, f.draw.y,
+					(shape->color == 4) ? 0xFFFFFF : 0);
+		else
+			ft_set_color(shape, f);
 	}
+	pthread_exit(NULL);
 }

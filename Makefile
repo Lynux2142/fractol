@@ -6,7 +6,7 @@
 #    By: lguiller <lguiller@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 12:18:12 by lguiller          #+#    #+#              #
-#    Updated: 2018/06/07 11:14:03 by lguiller         ###   ########.fr        #
+#    Updated: 2018/07/20 11:28:28 by lguiller         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCS		= fractol.c mouse_funct.c keyboard_funct.c fract1.c fract2.c \
 MINILIBX	= $(MLX_DIR)/libmlx.a
 LIBFT		= libft/libft.a
 OBJ			= $(addprefix ./srcs/, $(SRCS:.c=.o))
-FLAGS		= -Wall -Wextra -Werror -O2
+FLAGS		= -Wall -Wextra -Werror -O2 -g
 
 ifeq ($(OPE_SYS), Linux)
 	INCLUDES	= -I includes -I libft -I minilibx_X11 -I /usr/include
@@ -57,15 +57,15 @@ _CUT	= "\033[k"
 
 .PHONY: all libft minilibx clean fclean re
 
-all: libft minilibx $(NAME)
+all: $(NAME)
 
 libft:
 	@make -C libft
 
-minilibx:
+minilibx: libft
 	@make -C $(MLX_DIR)
 
-$(NAME): $(OBJ)
+$(NAME): minilibx $(OBJ)
 	@gcc $(FLAGS) $(OBJ) $(LIBFT) $(FRAMEWORK) $(MINILIBX) -o $(NAME)
 	@echo $(_GREEN)"Done."$(_END)
 
@@ -85,7 +85,9 @@ fclean: clean
 	@make -C libft fclean
 	@/bin/rm -f $(NAME)
 
-re: fclean all
+re:
+	@$(MAKE) fclean
+	@$(MAKE)
 
 lynux:
 	@make -C libft lynux

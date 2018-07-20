@@ -6,7 +6,7 @@
 /*   By: lguiller <lguiller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 11:27:27 by lguiller          #+#    #+#             */
-/*   Updated: 2018/04/05 16:58:54 by lguiller         ###   ########.fr       */
+/*   Updated: 2018/07/20 11:46:05 by lguiller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 # include <stdlib.h>
 # include <math.h>
 # include <stdio.h>
+# include <pthread.h>
+
+# define WINX	800
+# define WINY	600
 
 # ifdef __linux__
 #  define ESC			65307
@@ -130,9 +134,10 @@ typedef struct			s_shape
 	int					color;
 	int					ok;
 	t_string			string;
+	t_fract				f;
 }						t_shape;
 
-typedef void			(*t_funct)(t_shape*);
+typedef void			*(*t_funct)(void*);
 
 void					ft_usage(void);
 void					ft_display(t_shape *shape);
@@ -144,10 +149,10 @@ void					apply_zoom(t_shape *shape, int x, int y,
 void					ft_init(t_shape *shape, t_draw *draw);
 void					fill_pixel(t_shape *shape, int x, int y, int color);
 int						ft_couleur(int red, int green, int blue);
-void					fract1(t_shape *shape);
-void					fract2(t_shape *shape);
-void					fract3(t_shape *shape);
-void					fract4(t_shape *shape);
+void					*fract1(void *arg);
+void					*fract2(void *arg);
+void					*fract3(void *arg);
+void					*fract4(void *arg);
 void					ft_set_values(t_shape *shape);
 int						ft_var_julia(int x, int y, t_shape *shape);
 void					ft_set_color(t_shape *shape, t_fract f);
