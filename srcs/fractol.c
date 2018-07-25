@@ -6,7 +6,7 @@
 /*   By: lguiller <lguiller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 12:29:20 by lguiller          #+#    #+#             */
-/*   Updated: 2018/07/25 13:59:04 by lguiller         ###   ########.fr       */
+/*   Updated: 2018/07/25 19:38:16 by lguiller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ static void	ft_init_values(t_shape *shape)
 int			main(int ac, char **av)
 {
 	t_shape		shape;
-	t_funct		draw_f;
 
 	if (ac != 2 || get_f_funct(av[1]) == NULL)
 		ft_usage();
@@ -96,7 +95,6 @@ int			main(int ac, char **av)
 	ft_init_values(&shape);
 	shape.mlx = mlx_init();
 	shape.win = mlx_new_window(shape.mlx, shape.win_x, shape.win_y, "fractol");
-	draw_f = get_f_funct(av[1]);
 	ft_display(&shape);
 	mlx_put_image_to_window(shape.mlx, shape.win, shape.img, 0, 0);
 	mlx_hook(shape.win, 2, (1L << 0), ft_key_funct, &shape);

@@ -6,7 +6,7 @@
 #    By: lguiller <lguiller@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 12:18:12 by lguiller          #+#    #+#              #
-#    Updated: 2018/07/20 11:28:28 by lguiller         ###   ########.fr        #
+#    Updated: 2018/07/25 19:51:38 by lguiller         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,12 +22,12 @@ SRCS		= fractol.c mouse_funct.c keyboard_funct.c fract1.c fract2.c \
 MINILIBX	= $(MLX_DIR)/libmlx.a
 LIBFT		= libft/libft.a
 OBJ			= $(addprefix ./srcs/, $(SRCS:.c=.o))
-FLAGS		= -Wall -Wextra -Werror -O2 -g
+FLAGS		= -Wall -Wextra -Werror -O2 -pthread
 
 ifeq ($(OPE_SYS), Linux)
-	INCLUDES	= -I includes -I libft -I minilibx_X11 -I /usr/include
+	INCLUDES	= -I includes -I libft -I minilibx -I /usr/include
 	MLX_DIR		= minilibx_x11
-	FRAMEWORK	=-L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm
+	FRAMEWORK	= -L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm
 else
 	INCLUDES	= -I includes -I libft -I minilibx
 	MLX_DIR		= minilibx
@@ -60,10 +60,10 @@ _CUT	= "\033[k"
 all: $(NAME)
 
 libft:
-	@make -C libft
+	@make -sC libft
 
 minilibx: libft
-	@make -C $(MLX_DIR)
+	@make -sC $(MLX_DIR)
 
 $(NAME): minilibx $(OBJ)
 	@gcc $(FLAGS) $(OBJ) $(LIBFT) $(FRAMEWORK) $(MINILIBX) -o $(NAME)
@@ -77,17 +77,17 @@ $(NAME): minilibx $(OBJ)
 	@printf $(_END)
 
 clean:
-	@make -C libft clean
-	@make -C $(MLX_DIR) clean
+	@make -sC libft clean
+	@make -sC $(MLX_DIR) clean
 	@/bin/rm -f $(OBJ)
 
 fclean: clean
-	@make -C libft fclean
+	@make -sC libft fclean
 	@/bin/rm -f $(NAME)
 
 re:
-	@$(MAKE) fclean
-	@$(MAKE)
+	@$(MAKE) -s fclean
+	@$(MAKE) -s
 
 lynux:
 	@make -C libft lynux
