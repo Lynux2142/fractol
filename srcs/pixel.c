@@ -6,7 +6,7 @@
 /*   By: lguiller <lguiller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 13:17:48 by lguiller          #+#    #+#             */
-/*   Updated: 2018/04/10 14:18:26 by lguiller         ###   ########.fr       */
+/*   Updated: 2018/07/25 11:53:19 by lguiller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_init(t_shape *shape, t_draw *draw)
 	shape->img = mlx_new_image(shape->mlx, shape->img_x, shape->img_y);
 	shape->data = mlx_get_data_addr(
 			shape->img, &shape->bpp, &shape->sizeline, &shape->endian);
-	draw->x = -1;
+	draw->x = -THREAD;
 }
 
 void	fill_pixel(t_shape *shape, int x, int y, int color)

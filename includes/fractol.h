@@ -6,7 +6,7 @@
 /*   By: lguiller <lguiller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 11:27:27 by lguiller          #+#    #+#             */
-/*   Updated: 2018/07/20 11:46:05 by lguiller         ###   ########.fr       */
+/*   Updated: 2018/07/25 13:16:43 by lguiller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 # define WINX	800
 # define WINY	600
+# define THREAD	80
 
 # ifdef __linux__
 #  define ESC			65307

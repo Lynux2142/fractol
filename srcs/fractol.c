@@ -6,7 +6,7 @@
 /*   By: lguiller <lguiller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 12:29:20 by lguiller          #+#    #+#             */
-/*   Updated: 2018/07/20 11:48:08 by lguiller         ###   ########.fr       */
+/*   Updated: 2018/07/25 13:59:04 by lguiller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		ft_reset_fract(t_shape *shape)
 	ft_set_string(shape);
 }
 
-void		ft_test(t_shape *tmp, t_shape *shape)
+static void	ft_cpy_struct(t_shape *tmp, t_shape *shape)
 {
 	tmp->name = shape->name;
 	tmp->mlx = shape->mlx;
@@ -50,22 +50,22 @@ void		ft_test(t_shape *tmp, t_shape *shape)
 
 void		ft_display(t_shape *shape)
 {
-	pthread_t	test[WINX];
-	t_shape		*tmp[WINX];
+	pthread_t	test[WINX / THREAD];
+	t_shape		*tmp[WINX / THREAD];
 	t_funct		draw_f;
 	int			i;
 
 	draw_f = get_f_funct(shape->name);
 	ft_init(shape, &shape->f.draw);
-	while (++shape->f.draw.x < shape->img_x)
+	i = -1;
+	while ((shape->f.draw.x += THREAD) < shape->img_x)
 	{
-		tmp[shape->f.draw.x] = (t_shape*)malloc(sizeof(t_shape));
-		ft_test(tmp[shape->f.draw.x], shape);
-		pthread_create(&test[shape->f.draw.x], NULL, draw_f,
-			tmp[shape->f.draw.x]);
+		tmp[++i] = (t_shape*)malloc(sizeof(t_shape));
+		ft_cpy_struct(tmp[i], shape);
+		pthread_create(&test[i], NULL, draw_f, tmp[i]);
 	}
 	i = -1;
-	while (++i < 800)
+	while (++i < WINX / THREAD)
 		pthread_join(test[i], NULL);
 	mlx_put_image_to_window(shape->mlx, shape->win, shape->img, 0, 0);
 }
