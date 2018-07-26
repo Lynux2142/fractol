@@ -6,7 +6,7 @@
 #    By: lguiller <lguiller@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 12:18:12 by lguiller          #+#    #+#              #
-#    Updated: 2018/07/25 19:51:38 by lguiller         ###   ########.fr        #
+#    Updated: 2018/07/26 09:21:46 by lguiller         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,15 +22,15 @@ SRCS		= fractol.c mouse_funct.c keyboard_funct.c fract1.c fract2.c \
 MINILIBX	= $(MLX_DIR)/libmlx.a
 LIBFT		= libft/libft.a
 OBJ			= $(addprefix ./srcs/, $(SRCS:.c=.o))
-FLAGS		= -Wall -Wextra -Werror -O2 -pthread
+FLAGS		= -Wall -Wextra -Werror -O2
 
 ifeq ($(OPE_SYS), Linux)
-	INCLUDES	= -I includes -I libft -I minilibx -I /usr/include
 	MLX_DIR		= minilibx_x11
+	INCLUDES	= -I includes -I libft -I $(MLX_DIR) -I /usr/include -pthread
 	FRAMEWORK	= -L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm
 else
-	INCLUDES	= -I includes -I libft -I minilibx
 	MLX_DIR		= minilibx
+	INCLUDES	= -I includes -I libft -I $(MLX_DIR) -pthread
 	FRAMEWORK	= -framework OpenGL -framework Appkit
 endif
 
