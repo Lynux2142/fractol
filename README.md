@@ -7,15 +7,10 @@
 git clone https://github.com/Lynux2142/fractol.git
 
 git clone https://github.com/Lynux2142/libft.git
-```
-sur MAC
-```
+
 git clone https://github.com/Lynux2142/minilibx.git
 ```
-sur LINUX
-```
-git clone https://github.com/Lynux2142/minilibx_x11.git
-```
+
 ## Compilation:
 
 ```cd fractol/```
