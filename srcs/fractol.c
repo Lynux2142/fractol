@@ -6,7 +6,7 @@
 /*   By: lguiller <lguiller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 12:29:20 by lguiller          #+#    #+#             */
-/*   Updated: 2018/07/25 19:38:16 by lguiller         ###   ########.fr       */
+/*   Updated: 2019/01/23 16:25:17 by lguiller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ void		ft_display(t_shape *shape)
 	i = -1;
 	while (++i < WINX / THREAD)
 		pthread_join(test[i], NULL);
+	i = -1;
+	while (++i < WINX / THREAD)
+		free(tmp[i]);
 	mlx_put_image_to_window(shape->mlx, shape->win, shape->img, 0, 0);
 }
 
