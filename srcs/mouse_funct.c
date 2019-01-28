@@ -6,13 +6,13 @@
 /*   By: lguiller <lguiller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 12:40:46 by lguiller          #+#    #+#             */
-/*   Updated: 2018/04/05 16:58:43 by lguiller         ###   ########.fr       */
+/*   Updated: 2019/01/24 16:14:09 by lguiller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static void	ft_print_coord(int x, int y, t_shape *shape)
+void		ft_print_coord(int x, int y, t_shape *shape)
 {
 	char	reel[20];
 	char	imag[20];
@@ -34,7 +34,6 @@ int			ft_var_julia(int x, int y, t_shape *ptr)
 		ptr->c_r = (double)x / (ptr->img_x / (ptr->x2 - ptr->x1)) + ptr->x1;
 		ptr->c_i = (double)y / (ptr->img_y / (ptr->y2 - ptr->y1)) + ptr->y1;
 	}
-	ft_display(ptr);
 	if (x >= 5 && x <= 125 && y >= 10 && y <= 35)
 		ptr->string.mand = 0;
 	else
@@ -51,8 +50,8 @@ int			ft_var_julia(int x, int y, t_shape *ptr)
 		ptr->string.tri = 0;
 	else
 		ptr->string.tri = RED;
-	ft_print_coord(x, y, ptr);
-	ft_set_string(ptr);
+	ptr->mouse_x = x;
+	ptr->mouse_y = y;
 	return (0);
 }
 
@@ -96,10 +95,9 @@ int			ft_mouse_funct(int mouse, int x, int y, t_shape *shape)
 		shape->in_out = mouse;
 		apply_zoom(shape, x, y, 1.5);
 	}
-	if (mouse == L_CLIC)
+	if (mouse == L_CLIC && !shape->infos)
 		ft_change_fract(shape, x, y);
-	ft_display(shape);
-	ft_print_coord(x, y, shape);
-	ft_set_string(shape);
+	if (!shape->infos)
+		ft_print_coord(x, y, shape);
 	return (0);
 }

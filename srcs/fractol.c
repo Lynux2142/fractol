@@ -6,7 +6,7 @@
 /*   By: lguiller <lguiller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 12:29:20 by lguiller          #+#    #+#             */
-/*   Updated: 2019/01/23 16:25:17 by lguiller         ###   ########.fr       */
+/*   Updated: 2019/01/24 16:16:09 by lguiller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void		ft_reset_fract(t_shape *shape)
 {
 	shape->zoom = 250.0;
 	ft_set_values(shape);
-	ft_set_string(shape);
+	if (!shape->infos)
+		ft_set_string(shape);
 }
 
 static void	ft_cpy_struct(t_shape *tmp, t_shape *shape)
@@ -48,29 +49,40 @@ static void	ft_cpy_struct(t_shape *tmp, t_shape *shape)
 	tmp->f = shape->f;
 }
 
-void		ft_display(t_shape *shape)
+int			ft_display(t_shape *shape)
 {
 	pthread_t	test[WINX / THREAD];
 	t_shape		*tmp[WINX / THREAD];
 	t_funct		draw_f;
 	int			i;
 
-	draw_f = get_f_funct(shape->name);
-	ft_init(shape, &shape->f.draw);
-	i = -1;
-	while ((shape->f.draw.x += THREAD) < shape->img_x)
+	if (!shape->infos)
 	{
-		tmp[++i] = (t_shape*)malloc(sizeof(t_shape));
-		ft_cpy_struct(tmp[i], shape);
-		pthread_create(&test[i], NULL, draw_f, tmp[i]);
+		draw_f = get_f_funct(shape->name);
+		ft_init(shape, &shape->f.draw);
+		i = -1;
+		while ((shape->f.draw.x += THREAD) < shape->img_x)
+		{
+			tmp[++i] = (t_shape*)malloc(sizeof(t_shape));
+			ft_cpy_struct(tmp[i], shape);
+			pthread_create(&test[i], NULL, draw_f, tmp[i]);
+		}
+		i = -1;
+		while (++i < WINX / THREAD)
+			pthread_join(test[i], NULL);
+		i = -1;
+		while (++i < WINX / THREAD)
+			free(tmp[i]);
+		mlx_put_image_to_window(shape->mlx, shape->win, shape->img, 0, 0);
+		ft_set_string(shape);
+		ft_print_coord(shape->mouse_x, shape->mouse_y, shape);
 	}
-	i = -1;
-	while (++i < WINX / THREAD)
-		pthread_join(test[i], NULL);
-	i = -1;
-	while (++i < WINX / THREAD)
-		free(tmp[i]);
-	mlx_put_image_to_window(shape->mlx, shape->win, shape->img, 0, 0);
+	else
+	{
+		mlx_put_image_to_window(shape->mlx, shape->win, shape->img, 0, 0);
+		ft_put_infos(shape);
+	}
+	return (0);
 }
 
 static void	ft_init_values(t_shape *shape)
@@ -85,6 +97,9 @@ static void	ft_init_values(t_shape *shape)
 	shape->string.julia = RED;
 	shape->string.burn = RED;
 	shape->string.tri = RED;
+	shape->infos = 0;
+	shape->mouse_x = 0;
+	shape->mouse_y = 0;
 }
 
 int			main(int ac, char **av)
@@ -98,12 +113,10 @@ int			main(int ac, char **av)
 	ft_init_values(&shape);
 	shape.mlx = mlx_init();
 	shape.win = mlx_new_window(shape.mlx, shape.win_x, shape.win_y, "fractol");
-	ft_display(&shape);
-	mlx_put_image_to_window(shape.mlx, shape.win, shape.img, 0, 0);
 	mlx_hook(shape.win, 2, (1L << 0), ft_key_funct, &shape);
 	mlx_hook(shape.win, 6, (1L << 6), ft_var_julia, &shape);
 	mlx_mouse_hook(shape.win, ft_mouse_funct, &shape);
-	ft_set_string(&shape);
+	mlx_loop_hook(shape.mlx, ft_display, &shape);
 	mlx_loop(shape.mlx);
 	return (0);
 }
