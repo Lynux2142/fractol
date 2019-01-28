@@ -2,6 +2,8 @@
 
 ![screenshot](/screens/screen.png?raw=true)
 
+![screenshot](/screens/screen4.png?raw=true)
+
 ## Telechargement:
 ```
 git clone https://github.com/Lynux2142/fractol.git
