@@ -1,6 +1,6 @@
 # fractol
 
-![screenshot](/screens/screen.png?raw=true)
+![screenshot](/screens/fractGIF.gif?raw=true)
 
 ![screenshot](/screens/screen4.png?raw=true)
 
