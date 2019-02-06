@@ -6,7 +6,7 @@
 /*   By: lguiller <lguiller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 12:30:34 by lguiller          #+#    #+#             */
-/*   Updated: 2019/01/24 15:54:42 by lguiller         ###   ########.fr       */
+/*   Updated: 2018/04/05 16:56:35 by lguiller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,14 @@ int			ft_key_funct(int key, t_shape *shape)
 		shape->ok = (shape->ok == 1) ? 0 : 1;
 	if (key == ESC)
 		exit(0);
+	ft_display(shape);
 	if (key == KEY_F)
 	{
 		ft_create_fdf(shape, shape->data);
 		mlx_string_put(shape->mlx, shape->win, 340, 289, RED, "File Created");
 	}
+	ft_set_string(shape);
 	if (key == KEY_H)
-		shape->infos = (shape->infos == 0) ? 1 : 0;
+		ft_put_infos(shape);
 	return (0);
 }

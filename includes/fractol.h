@@ -6,7 +6,7 @@
 /*   By: lguiller <lguiller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 11:27:27 by lguiller          #+#    #+#             */
-/*   Updated: 2019/01/28 11:15:09 by lguiller         ###   ########.fr       */
+/*   Updated: 2018/07/25 13:16:43 by lguiller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 # define WINX	800
 # define WINY	600
-# define THREAD	100
+# define THREAD	80
 
 # ifdef __linux__
 #  define ESC			65307
@@ -136,15 +136,12 @@ typedef struct			s_shape
 	int					ok;
 	t_string			string;
 	t_fract				f;
-	int					infos;
-	int					mouse_x;
-	int					mouse_y;
 }						t_shape;
 
 typedef void			*(*t_funct)(void*);
 
 void					ft_usage(void);
-int						ft_display(t_shape *shape);
+void					ft_display(t_shape *shape);
 int						ft_key_funct(int key, t_shape *shape);
 int						ft_mouse_funct(int mouse, int x, int y, t_shape *shape);
 t_funct					get_f_funct(char *name_f);
@@ -165,6 +162,5 @@ void					ft_create_fdf(t_shape *shape, char *data);
 void					ft_reset_fract(t_shape *shape);
 void					ft_put_infos(t_shape *shape);
 void					put_rect(t_shape *shape, t_rect *rect);
-void					ft_print_coord(int x, int y, t_shape *shape);
 
 #endif
