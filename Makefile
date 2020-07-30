@@ -6,7 +6,7 @@
 #    By: lguiller <lguiller@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/16 12:18:12 by lguiller          #+#    #+#              #
-#    Updated: 2019/10/01 10:52:19 by lguiller         ###   ########.fr        #
+#    Updated: 2020/07/30 15:04:53 by lguiller         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,10 +103,10 @@ $(MINILIBX): FORCE
 FORCE:
 
 $(NAME): $(OBJS_DIR) $(OBJS)
-	gcc $(FLAGS) $(OBJS) $(LIBFT) $(FRAMEWORK) $(MINILIBX) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJS) $(LIBFT) $(FRAMEWORK) $(MINILIBX) -o $(NAME)
 
 $(OBJS): $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADER)
-	gcc $(FLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 	printf $<
 
 clean:
